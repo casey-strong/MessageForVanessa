@@ -1,11 +1,13 @@
 import React, {Component} from 'react';
-import {View, Text, TouchableWithoutFeedback, StyleSheet} from 'react-native';
+import {View, Text, TouchableWithoutFeedback, StyleSheet, Animated, Easing} from 'react-native';
+//import FadeInText from './../components/fadeInText';
 
 export default class First extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      textN: 0
+      textN: 0,
+      animValue: new Animated.Value(0)
     };
   }
 
@@ -28,11 +30,33 @@ export default class First extends Component {
     }
   }
 
+  componentDidMount() {
+    Animated.timing(
+      this.state.animValue,
+      {
+        toValue: 1,
+        duration: 1000,
+        easing: Easing.linear
+      }
+    ).start()
+  }
+
+  componentDidUpdate() {
+    Animated.timing(
+      this.state.animValue,
+      {
+        toValue: 1,
+        duration: 1000,
+        easing: Easing.linear
+      }
+    ).start()
+  }
 
   render(){
     updateText = () => {
       this.setState((prevState, props) => ({
-        textN: prevState.textN + 1
+        textN: prevState.textN + 1,
+        animValue: new Animated.Value(0)
       }));
     }
 
@@ -42,7 +66,8 @@ export default class First extends Component {
       <View style={styles.container}>
         <TouchableWithoutFeedback style={styles.touch} onPress={updateText}>
           <View style={styles.textContainer}>
-            <Text style={styles.text}>{this.getText(this.state.textN)}</Text>
+
+            <Animated.Text style={{...styles.text, opacity: this.state.animValue}}>{this.getText(this.state.textN)}</Animated.Text>
           </View>
         </TouchableWithoutFeedback>
       </View>
@@ -63,8 +88,13 @@ const styles = StyleSheet.create({
     width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: '#0f0'
+  },
+  textFadeContainer: {
+
   },
   touch: {
     flex: 1,
+    backgroundColor: '#f00'
   }
 });
