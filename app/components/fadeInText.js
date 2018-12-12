@@ -5,6 +5,9 @@ export default class FadeInText extends Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      animValue: 0
+    }
   }
 
   render()
